@@ -4,10 +4,19 @@ extends Node2D
 var major_city_good = preload("res://major_city_good.png");
 var major_city_bad = preload("res://major_city_bad.png");
 
-#Loading objects to be set to proper nodes
+#Loading in major cities
 onready var mjr_btm_left = get_node("mjr_btm_left");
 onready var mjr_middle = get_node("mjr_middle");
 onready var mjr_top_right = get_node("mjr_top_right");
+
+#Loading in minor cities
+onready var minor_top_left = get_node("minor_top_left");
+onready var minor_top_right = get_node("minor_top_right");
+onready var minor_btm_left = get_node("minor_btm_left");
+onready var minor_btm_right = get_node("minor_btm_right");
+
+#Neccessary global variables
+#var quad_btm_left_
 
 
 # Called when the node enters the scene tree for the first time.
@@ -57,6 +66,9 @@ func check_for_same():
 				mjr_middle.texture = major_city_bad;
 			if(choice == 3):
 				mjr_btm_left.texture = major_city_bad;
+
+#func minor_city_alliances():
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
