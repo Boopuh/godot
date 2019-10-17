@@ -3,6 +3,8 @@ extends Node2D
 #Loading in sprites
 var major_city_good = preload("res://major_city_good.png");
 var major_city_bad = preload("res://major_city_bad.png");
+var minor_city_good = preload("res://minor_city_good.png");
+var minor_city_bad = preload("res://minor_city_bad.png");
 
 #Loading in major cities
 onready var mjr_btm_left = get_node("mjr_btm_left");
@@ -16,8 +18,6 @@ onready var minor_btm_left = get_node("minor_btm_left");
 onready var minor_btm_right = get_node("minor_btm_right");
 
 #Neccessary global variables
-#var quad_btm_left_
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -28,6 +28,10 @@ func generate_city_alliance():
 	check_for_same();
 
 func set_up_alliances():
+	major_city_alliances();
+	minor_city_alliances();
+
+func major_city_alliances():
 	randomize();
 	if(randi()%100 + 1 < 50):
 		mjr_btm_left.texture = major_city_good;
@@ -67,8 +71,27 @@ func check_for_same():
 			if(choice == 3):
 				mjr_btm_left.texture = major_city_bad;
 
-#func minor_city_alliances():
-	
+func minor_city_alliances():
+	randomize();
+	if(randi()%100 + 1 < 50):
+		minor_btm_left.texture = minor_city_good;
+	else:
+		minor_btm_left.texture = minor_city_bad;
+		
+	if(randi()%100 + 1 < 50):
+		minor_top_left.texture = minor_city_good;
+	else:
+		minor_top_left.texture = minor_city_bad;
+		
+	if(randi()%100 + 1 < 50):
+		minor_top_right.texture = minor_city_good;
+	else:
+		minor_top_right.texture = minor_city_bad;
+		
+	if(randi()%100 + 1 < 50):
+		minor_btm_right.texture = minor_city_good;
+	else:
+		minor_btm_right.texture = minor_city_bad;
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
