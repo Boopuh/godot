@@ -2,7 +2,6 @@
 extends KinematicBody2D
 
 var Velocity = Vector2() #This is what direction the object is moving
-
 const SPEED = 2
 
 #By using negative gravity it will bounce in the opposite direction
@@ -24,9 +23,11 @@ func _physics_process(delta):
 		direction.x = SPEED
 		collision = move_and_collide(direction)
 
-
 	if collision :
 		var ObjectCollidedWith = collision.collider
-
+		
 		if ObjectCollidedWith.is_in_group("Wall") :
 			direction =  Vector2(0,0)
+	
+	if player_values.front_door && Input.is_action_pressed("ui_accept"):
+		print("opens door")

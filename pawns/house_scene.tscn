@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://player_controls.gd" type="Script" id=1]
 [ext_resource path="res://sprites/black_square.png" type="Texture" id=2]
 [ext_resource path="res://sprites/wall.png" type="Texture" id=3]
 [ext_resource path="res://sprites/side_wall.png" type="Texture" id=4]
-[ext_resource path="res://sprites/door.png" type="Texture" id=5]
+[ext_resource path="res://front_door.gd" type="Script" id=5]
+[ext_resource path="res://sprites/door.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
@@ -16,6 +17,7 @@ extents = Vector2( 220, 16 )
 extents = Vector2( 16, 135 )
 
 [sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 32, 16 )
 
 [node name="Node2D" type="Node2D"]
 
@@ -89,10 +91,16 @@ limit_right = 10000
 limit_bottom = 10000
 
 [node name="Area2D" type="Area2D" parent="."]
+editor/display_folded = true
 position = Vector2( 16, 135 )
+script = ExtResource( 5 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" groups=[
+"front_door",
+]]
+position = Vector2( 16, 0 )
 shape = SubResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="Area2D/CollisionShape2D"]
-texture = ExtResource( 5 )
+position = Vector2( -16, 0 )
+texture = ExtResource( 6 )
