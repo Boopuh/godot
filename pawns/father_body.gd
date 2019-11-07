@@ -11,4 +11,5 @@ func _physics_process(delta):
 		if ObjectCollidedWith.is_in_group("Wall"):
 			SPEED = -SPEED
 			direction = Vector2(0, SPEED)
-			print(SPEED);
+		if ObjectCollidedWith.is_in_group("Player"):
+			print("Hello Player")
