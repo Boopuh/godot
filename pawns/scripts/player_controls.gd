@@ -33,3 +33,5 @@ func _physics_process(delta):
 			scene_controller.goto_scene("res://outside_scene.tscn")
 		if player_values.outer_door:
 			scene_controller.goto_scene("res://house_scene.tscn")
+		if player_values.father_contact:
+			pass

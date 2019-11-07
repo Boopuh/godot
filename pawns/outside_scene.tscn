@@ -1,19 +1,55 @@
 [gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://sprites/side_wall.png" type="Texture" id=1]
-[ext_resource path="res://outer_door.gd" type="Script" id=2]
+[ext_resource path="res://scripts/outer_door.gd" type="Script" id=2]
 [ext_resource path="res://sprites/door.png" type="Texture" id=3]
-[ext_resource path="res://player_controls.gd" type="Script" id=4]
-[ext_resource path="res://sprites/black_square.png" type="Texture" id=5]
-[ext_resource path="res://sprites/roof.png" type="Texture" id=6]
-[ext_resource path="res://sprites/fence.png" type="Texture" id=7]
-[ext_resource path="res://father_body.gd" type="Script" id=8]
+[ext_resource path="res://sprites/black_square.png" type="Texture" id=4]
+[ext_resource path="res://sprites/roof.png" type="Texture" id=5]
+[ext_resource path="res://sprites/fence.png" type="Texture" id=6]
+[ext_resource path="res://scripts/father_body.gd" type="Script" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 135 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 16, 16 )
+
+[sub_resource type="GDScript" id=8]
+script/source = "
+extends KinematicBody2D
+
+const SPEED = 2
+
+#By using negative gravity it will bounce in the opposite direction
+#Inside the physics step I use move and collide and the gravity as input
+func _physics_process(delta):
+    #For now Gravity is the only thing effecting velocity
+	var direction = Vector2()
+	var collision = false;
+	if Input.is_action_pressed(\"ui_down\"):
+		direction.y = SPEED
+		collision = move_and_collide(direction)
+	if Input.is_action_pressed(\"ui_up\"):
+		direction.y = -SPEED
+		collision = move_and_collide(direction)
+	if Input.is_action_pressed(\"ui_left\"):
+		direction.x = -SPEED
+		collision = move_and_collide(direction)
+	if Input.is_action_pressed(\"ui_right\"):
+		direction.x = SPEED
+		collision = move_and_collide(direction)
+
+	if collision:
+		var ObjectCollidedWith = collision.collider
+		
+		if ObjectCollidedWith.is_in_group(\"Wall\"):
+			direction =  Vector2(0,0)
+	
+	if Input.is_action_pressed(\"ui_accept\"):
+		if player_values.front_door:
+			scene_controller.goto_scene(\"res://outside_scene.tscn\")
+		if player_values.outer_door:
+			scene_controller.goto_scene(\"res://house_scene.tscn\")"
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 16, 16 )
@@ -22,7 +58,7 @@ extents = Vector2( 16, 16 )
 extents = Vector2( 240, 135 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 240, 16 )
+extents = Vector2( 240, 1 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 16, 16 )
@@ -62,13 +98,13 @@ texture = ExtResource( 3 )
 ]]
 editor/display_folded = true
 position = Vector2( 415, 135 )
-script = ExtResource( 4 )
+script = SubResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player_body"]
 shape = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="player_body/CollisionShape2D"]
-texture = ExtResource( 5 )
+texture = ExtResource( 4 )
 
 [node name="player_camera" type="Camera2D" parent="player_body"]
 current = true
@@ -84,7 +120,7 @@ position = Vector2( 240, 0 )
 shape = SubResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="roof/CollisionShape2D"]
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 
 [node name="top_fence" type="StaticBody2D" parent="." groups=[
 "Wall",
@@ -96,29 +132,31 @@ position = Vector2( 210, 16 )
 shape = SubResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="top_fence/CollisionShape2D"]
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 
 [node name="bottom_fence" type="StaticBody2D" parent="." groups=[
 "Wall",
 ]]
 editor/display_folded = true
 position = Vector2( 210, 254 )
+z_index = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bottom_fence"]
 shape = SubResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="bottom_fence/CollisionShape2D"]
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 
 [node name="father_body" type="KinematicBody2D" parent="."]
 position = Vector2( 120, 48 )
-script = ExtResource( 8 )
+z_index = 1
+script = ExtResource( 7 )
 
 [node name="movement_collision" type="CollisionShape2D" parent="father_body"]
 shape = SubResource( 6 )
 
 [node name="Sprite" type="Sprite" parent="father_body/movement_collision"]
-texture = ExtResource( 5 )
+texture = ExtResource( 4 )
 
 [node name="Area2D" type="Area2D" parent="father_body"]
 

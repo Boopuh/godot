@@ -21,8 +21,9 @@ config/icon="res://icon.png"
 
 [autoload]
 
-player_values="*res://player_values.gd"
-scene_controller="*res://scene_controller.gd"
+player_values="*res://scripts/player_values.gd"
+scene_controller="*res://scripts/scene_controller.gd"
+father_values="*res://scripts/father_values.gd"
 
 [display]
 
