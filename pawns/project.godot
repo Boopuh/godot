@@ -22,6 +22,7 @@ config/icon="res://icon.png"
 [autoload]
 
 player_values="*res://player_values.gd"
+scene_controller="*res://scene_controller.gd"
 
 [display]
 
