@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scripts/player_controls.gd" type="Script" id=1]
 [ext_resource path="res://sprites/black_square.png" type="Texture" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://sprites/side_wall.png" type="Texture" id=4]
 [ext_resource path="res://scripts/front_door.gd" type="Script" id=5]
 [ext_resource path="res://sprites/door.png" type="Texture" id=6]
+[ext_resource path="res://sprites/lifebar_bg.png" type="Texture" id=7]
+[ext_resource path="res://sprites/lifebar_fill.png" type="Texture" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
@@ -23,9 +25,11 @@ extents = Vector2( 16, 16 )
 
 [node name="player_body" type="KinematicBody2D" parent="."]
 position = Vector2( 65, 135 )
+z_index = 1
 script = ExtResource( 1 )
 
 [node name="player_collision" type="CollisionShape2D" parent="player_body"]
+editor/display_folded = true
 shape = SubResource( 1 )
 
 [node name="player" type="Sprite" parent="player_body/player_collision"]
@@ -90,6 +94,7 @@ limit_right = 10000
 limit_bottom = 10000
 
 [node name="front_door" type="Area2D" parent="."]
+editor/display_folded = true
 position = Vector2( 16, 135 )
 script = ExtResource( 5 )
 
@@ -102,3 +107,53 @@ shape = SubResource( 4 )
 [node name="Sprite" type="Sprite" parent="front_door/CollisionShape2D"]
 position = Vector2( -16, 0 )
 texture = ExtResource( 6 )
+
+[node name="GUI" type="MarginContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 220.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 128.0
+margin_bottom = 34.0
+
+[node name="Bars" type="VBoxContainer" parent="GUI/HBoxContainer"]
+margin_right = 104.0
+margin_bottom = 14.0
+
+[node name="Bar" type="HBoxContainer" parent="GUI/HBoxContainer/Bars"]
+margin_right = 104.0
+margin_bottom = 14.0
+
+[node name="Count" type="MarginContainer" parent="GUI/HBoxContainer/Bars/Bar"]
+margin_bottom = 14.0
+
+[node name="Background" type="NinePatchRect" parent="GUI/HBoxContainer/Bars/Bar/Count"]
+margin_bottom = 14.0
+
+[node name="Title" type="TextureRect" parent="GUI/HBoxContainer/Bars/Bar/Count"]
+margin_bottom = 14.0
+
+[node name="Number" type="Label" parent="GUI/HBoxContainer/Bars/Bar/Count"]
+margin_bottom = 14.0
+
+[node name="TextureProgress" type="TextureProgress" parent="GUI/HBoxContainer/Bars/Bar"]
+margin_left = 4.0
+margin_right = 104.0
+margin_bottom = 14.0
+value = 50.0
+texture_under = ExtResource( 7 )
+texture_progress = ExtResource( 8 )
+
+[node name="Counters" type="HBoxContainer" parent="GUI/HBoxContainer"]
+margin_left = 108.0
+margin_right = 108.0
+margin_bottom = 14.0
