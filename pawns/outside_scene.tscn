@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://sprites/side_wall.png" type="Texture" id=1]
 [ext_resource path="res://scripts/outer_door.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://sprites/roof.png" type="Texture" id=5]
 [ext_resource path="res://sprites/fence.png" type="Texture" id=6]
 [ext_resource path="res://scripts/father_body.gd" type="Script" id=7]
+[ext_resource path="res://scripts/father_collision.gd" type="Script" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 135 )
@@ -49,7 +50,9 @@ func _physics_process(delta):
 		if player_values.front_door:
 			scene_controller.goto_scene(\"res://outside_scene.tscn\")
 		if player_values.outer_door:
-			scene_controller.goto_scene(\"res://house_scene.tscn\")"
+			scene_controller.goto_scene(\"res://house_scene.tscn\")
+		if father_values.stopped_by_player:
+			print (\"Hello Child\")"
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 16, 16 )
@@ -98,6 +101,7 @@ texture = ExtResource( 3 )
 ]]
 editor/display_folded = true
 position = Vector2( 415, 135 )
+z_index = 1
 script = SubResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player_body"]
@@ -159,6 +163,7 @@ shape = SubResource( 6 )
 texture = ExtResource( 4 )
 
 [node name="Area2D" type="Area2D" parent="father_body"]
+script = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="father_body/Area2D"]
 shape = SubResource( 7 )

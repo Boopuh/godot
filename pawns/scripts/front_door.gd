@@ -1,22 +1,18 @@
 extends Area2D
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+var enter_connected
+var exit_connected
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	connect('body_entered', self, '_on_player_entered')
-	connect('body_exited', self, '_on_player_exit')
+	enter_connected = connect('body_entered', self, '_on_player_entered')
+	exit_connected = connect('body_exited', self, '_on_player_exit')
 
 func _on_player_entered(body):
-	if body.get_name() == 'player_body':
-		player_values.front_door = true;
-			
-func _on_player_exit(body):
-	if body.get_name() == 'player_body':
-		player_values.front_door = false;
+	if enter_connected == 0:
+		if body.get_name() == 'player_body':
+			player_values.front_door = true;
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _on_player_exit(body):
+	if exit_connected == 0:
+		if body.get_name() == 'player_body':
+			player_values.front_door = false;
